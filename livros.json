@@ -1,0 +1,58 @@
+[
+    {
+        "titulo": "Verity",
+        "autor": "Colleen Hoover",
+        "genero": "Suspense",
+        "status": "lido",
+        "avaliacao": 5,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "Nunca Minta",
+        "autor": "Freida McFadden",
+        "genero": "Suspense",
+        "status": "lido",
+        "avaliacao": 5,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "Jantar Secreto",
+        "autor": "Raphael Montes",
+        "genero": "Suspense",
+        "status": "lido",
+        "avaliacao": 5,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "A Paciente Silenciosa",
+        "autor": "Alex Michaelides",
+        "genero": "Suspense",
+        "status": "lido",
+        "avaliacao": 5,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "Sobre os ossos dos mortos",
+        "autor": "Olga Tokarczuk",
+        "genero": "Thriller",
+        "status": "lido",
+        "avaliacao": 3,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "Esperando Bojangles",
+        "autor": "Olivier Bourdeaut",
+        "genero": "Drama",
+        "status": "lido",
+        "avaliacao": 5,
+        "data_leitura": "2026-03-09"
+    },
+    {
+        "titulo": "A Guerra dos Tronos",
+        "autor": "George R.R. Martin",
+        "genero": "Fantasia",
+        "status": "lido",
+        "avaliacao": null,
+        "data_leitura": "2026-03-09"
+    }
+]
