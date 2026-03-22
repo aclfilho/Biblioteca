@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import Estatisticas from "./Estatisticas"
 
 const API = "http://localhost:8000"
 
@@ -10,6 +11,7 @@ function App() {
   const [genero, setGenero] = useState("")
   const [filtro, setFiltro] = useState("")
   const [mostrarForm, setMostrarForm] = useState(false)
+  const [pagina, setPagina] = useState("home")
 
   useEffect(() => { buscarLivros() }, [])
 
@@ -44,21 +46,25 @@ function App() {
     ? (livros.reduce((s, l) => s + (l.avaliacao || 0), 0) / livros.filter(l => l.avaliacao).length).toFixed(1)
     : "—"
 
+  if (pagina === "estatisticas") {
+    return <Estatisticas onVoltar={() => setPagina("home")} />
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: "#1C1C1E", fontFamily: "'Georgia', serif", color: "#F0EDE8" }}>
 
       {/* Sidebar */}
       <div style={{
         position: "fixed", left: 0, top: 0, bottom: 0, width: "260px",
-        background: "#2C2825", color: "#EDEAE4", padding: "40px 28px",
-        display: "flex", flexDirection: "column", gap: "8px", zIndex: 10
+        background: "#2C2825", borderRight: "1px solid #3A3330",
+        padding: "40px 28px", display: "flex", flexDirection: "column", gap: "8px", zIndex: 10
       }}>
         <div style={{ marginBottom: "32px" }}>
-          <div style={{ fontSize: "20px", fontWeight: "600", letterSpacing: "-0.5px", color: "#F5F0E8" }}>
-          Biblioteca Pessoal
+          <div style={{ fontSize: "22px", fontWeight: "700", letterSpacing: "-0.5px", color: "#F5F0E8" }}>
+            📚 Biblioteca
           </div>
           <div style={{ fontSize: "12px", color: "#8A7F75", marginTop: "4px", letterSpacing: "1px" }}>
-            André C.
+            PESSOAL
           </div>
         </div>
 
@@ -85,7 +91,7 @@ function App() {
             style={{
               width: "100%", background: "#3A3330", border: "none", borderRadius: "8px",
               padding: "10px 12px", color: "#F5F0E8", fontSize: "13px", outline: "none",
-              boxSizing: "border-box"
+              boxSizing: "border-box", fontFamily: "Georgia, serif"
             }}
             placeholder="Ex: Romance..."
             value={filtro}
@@ -95,7 +101,7 @@ function App() {
       </div>
 
       {/* Main */}
-      <div style={{ marginLeft: "260px", padding: "48px 48px", background: "#1C1C1E", minHeight: "100vh" }}>
+      <div style={{ marginLeft: "260px", padding: "48px", background: "#1C1C1E", minHeight: "100vh" }}>
 
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "40px" }}>
@@ -107,16 +113,33 @@ function App() {
               {livrosFiltrados.length} livro{livrosFiltrados.length !== 1 ? "s" : ""} encontrado{livrosFiltrados.length !== 1 ? "s" : ""}
             </p>
           </div>
-          <button
-            onClick={() => setMostrarForm(!mostrarForm)}
-            style={{
-              background: "#3A3330", color: "#F5F0E8", border: "none", borderRadius: "10px",
-              padding: "12px 24px", fontSize: "14px", cursor: "pointer", fontFamily: "Georgia, serif",
-              transition: "opacity 0.15s"
-            }}
-          >
-            {mostrarForm ? "✕ Cancelar" : "+ Adicionar livro"}
-          </button>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              onClick={() => setPagina("estatisticas")}
+              style={{
+                background: "#3A3330", color: "#F5F0E8", border: "none",
+                borderRadius: "10px", padding: "12px 24px", fontSize: "14px",
+                cursor: "pointer", fontFamily: "Georgia, serif", transition: "all 0.15s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = "#4A4540"}
+              onMouseLeave={e => e.currentTarget.style.background = "#3A3330"}
+            >
+              📊 Estatísticas
+            </button>
+            <button
+              onClick={() => setMostrarForm(!mostrarForm)}
+              style={{
+                background: mostrarForm ? "#3A3330" : "#4A4540",
+                color: "#F5F0E8", border: "none",
+                borderRadius: "10px", padding: "12px 24px", fontSize: "14px",
+                cursor: "pointer", fontFamily: "Georgia, serif", transition: "all 0.15s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = "#5A5550"}
+              onMouseLeave={e => e.currentTarget.style.background = mostrarForm ? "#3A3330" : "#4A4540"}
+            >
+              {mostrarForm ? "✕ Cancelar" : "+ Adicionar livro"}
+            </button>
+          </div>
         </div>
 
         {/* Formulário */}
@@ -148,9 +171,12 @@ function App() {
             <button
               onClick={adicionarLivro}
               style={{
-                background: "#3A3330", color: "#F5F0E8", border: "none", borderRadius: "8px",
-                padding: "10px 24px", fontSize: "14px", cursor: "pointer", fontFamily: "Georgia, serif"
+                background: "#4A4540", color: "#F5F0E8", border: "none",
+                borderRadius: "8px", padding: "10px 24px", fontSize: "14px",
+                cursor: "pointer", fontFamily: "Georgia, serif", transition: "all 0.15s"
               }}
+              onMouseEnter={e => e.currentTarget.style.background = "#5A5550"}
+              onMouseLeave={e => e.currentTarget.style.background = "#4A4540"}
             >
               Salvar
             </button>
@@ -159,7 +185,7 @@ function App() {
 
         {/* Lista */}
         {livrosFiltrados.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 0", color: "#B0A89E" }}>
+          <div style={{ textAlign: "center", padding: "80px 0", color: "#8A7F75" }}>
             <div style={{ fontSize: "48px", marginBottom: "16px" }}>📖</div>
             <p style={{ fontSize: "16px" }}>Nenhum livro encontrado.</p>
           </div>
@@ -169,10 +195,16 @@ function App() {
               <div key={i} style={{
                 background: "#2C2C2E", borderRadius: "16px", padding: "24px",
                 border: "1px solid #3A3A3C", position: "relative",
-                transition: "transform 0.15s", cursor: "default"
+                transition: "transform 0.15s, border-color 0.15s", cursor: "default"
               }}
-                onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
-                onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = "translateY(-3px)"
+                  e.currentTarget.style.borderColor = "#5A5A5C"
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = "translateY(0)"
+                  e.currentTarget.style.borderColor = "#3A3A3C"
+                }}
               >
                 {/* Remover */}
                 <button
@@ -180,8 +212,11 @@ function App() {
                   style={{
                     position: "absolute", top: "16px", right: "16px",
                     background: "none", border: "none", cursor: "pointer",
-                    color: "#6A6A6C", fontSize: "16px", lineHeight: 1
+                    color: "#6A6A6C", fontSize: "16px", lineHeight: 1,
+                    transition: "color 0.15s"
                   }}
+                  onMouseEnter={e => e.currentTarget.style.color = "#E05C5C"}
+                  onMouseLeave={e => e.currentTarget.style.color = "#6A6A6C"}
                 >✕</button>
 
                 {/* Gênero */}
@@ -213,7 +248,7 @@ function App() {
                           background: "none", border: "none", cursor: "pointer",
                           fontSize: "18px", padding: "0",
                           color: nota <= (livro.avaliacao || 0) ? "#C4903A" : "#4A4A4C",
-                          transition: "transform 0.1s"
+                          transition: "transform 0.1s, color 0.1s"
                         }}
                         onMouseEnter={e => e.currentTarget.style.transform = "scale(1.3)"}
                         onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
